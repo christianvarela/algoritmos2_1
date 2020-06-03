@@ -56,7 +56,7 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarRepartidor(String matricula, String nombre) {
-		this.Repartidores = new Repartidor(matricula, nombre);
+		//this.Repartidores = new Repartidor(matricula, nombre);
 		return new Retorno(Resultado.OK);
 	}
 
