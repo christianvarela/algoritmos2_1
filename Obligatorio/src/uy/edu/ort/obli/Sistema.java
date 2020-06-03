@@ -2,7 +2,7 @@ package uy.edu.ort.obli;
 
 import uy.edu.ort.obli.Arco;
 import uy.edu.ort.obli.Retorno.Resultado;
-import uy.edu.ort.obli.Repartidor;
+
 
 public class Sistema implements ISistema {
 	
@@ -11,10 +11,6 @@ public class Sistema implements ISistema {
 	int maxPuntos;			//Maxima cantidad de nodos permitida
 	Arco[][] matrizAdy;		//Representamos las conexiones entre los vertices. 
 	boolean [] nodosUsados; //Representamos los vertices (la existencia o no existencia)
-	
-	//Repartidores
-	
-	
 	
 	@Override
 	//Crea el grafo vacio (sin nodos ni aristas) con capacidad de almacenamiento maxPuntos	
@@ -56,7 +52,6 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarRepartidor(String matricula, String nombre) {
-		//this.Repartidores = new Repartidor(matricula, nombre);
 		return new Retorno(Resultado.OK);
 	}
 
