@@ -1,5 +1,5 @@
 package uy.edu.ort.obli;
-
+import uy.edu.ort.obli.ArbolRepartidor;
 import uy.edu.ort.obli.Arco;
 import uy.edu.ort.obli.Retorno.Resultado;
 
@@ -11,6 +11,7 @@ public class Sistema implements ISistema {
 	int maxPuntos;			//Maxima cantidad de nodos permitida
 	Arco[][] matrizAdy;		//Representamos las conexiones entre los vertices. 
 	boolean [] nodosUsados; //Representamos los vertices (la existencia o no existencia)
+	ArbolRepartidor repartidores = new ArbolRepartidor(); //Inicializamos arbol de repartidores
 	
 	@Override
 	//Crea el grafo vacio (sin nodos ni aristas) con capacidad de almacenamiento maxPuntos	
@@ -51,13 +52,45 @@ public class Sistema implements ISistema {
 	}
 
 	@Override
-	public Retorno registrarRepartidor(String matricula, String nombre) {
-		return new Retorno(Resultado.OK);
+	public Retorno registrarRepartidor(String matricula, String nombre) {	
+		String regex = "^[a-zA-Z]+[0-9]+$";
+		if (matricula.matches(regex) && matricula.length() >= 4) { 
+			if (!repartidores.existeRepartidor(matricula)){
+				repartidores.insertarRepartidor(matricula, nombre, repartidores.raiz);
+				return new Retorno(Resultado.OK);
+			}
+			else
+			{
+				return new Retorno(Resultado.ERROR_2);
+			}
+		}
+		else {
+			return new Retorno(Resultado.ERROR_1);
+		}
 	}
 
 	@Override
 	public Retorno buscarRepartidor(String matricula) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		String regex = "^[a-zA-Z]+[0-9]+$";
+		
+		if (matricula.matches(regex) && matricula.length() >= 4) {
+			
+			if (repartidores.existeRepartidor(matricula)){
+				
+				return new Retorno(
+						Resultado.OK,
+						repartidores.recorridosBusqueda,
+						(repartidores.obtenerRepartidor(matricula, repartidores.raiz)).getDato()
+				);
+			}
+			else
+			{
+				return new Retorno(Resultado.ERROR_2);
+			}
+		}
+		else {
+			return new Retorno(Resultado.ERROR_1);
+		}
 	}
 
 	@Override

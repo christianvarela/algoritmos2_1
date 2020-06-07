@@ -1,27 +1,34 @@
 package uy.edu.ort.obli;
 
 public class ArbolRepartidor {
-	private NodoRepartidor raiz;
+	protected NodoRepartidor raiz;
+	protected int recorridosBusqueda; 
 	
 	public ArbolRepartidor() {
 		this.raiz = null;
 	}
+	
 	public NodoRepartidor getRaiz() {
 		return raiz;
 	}
+	
 	public boolean esArbolRepartidorVacio() {
 		return (this.raiz == null);
 	}
+	
 	public boolean existeRepartidor(String mat) {
 		NodoRepartidor aux = obtenerRepartidor(mat, raiz);
 		
 		if(aux != null) {
 			return true;
-		} else {
+		} 
+		else {
 			return false;
 		}
 	}
-	public NodoRepartidor obtenerRepartidor (String mat, NodoRepartidor nodo) {
+	
+	public NodoRepartidor obtenerRepartidor(String mat, NodoRepartidor nodo) {
+		this.recorridosBusqueda = 0;
 		if (nodo == null) {
 			return nodo;
 		}
@@ -30,13 +37,16 @@ public class ArbolRepartidor {
 				return nodo;
 			}
 			else if ( Integer.parseInt(mat) < Integer.parseInt(nodo.getMatricula())) {
+				this.recorridosBusqueda ++;
 				return obtenerRepartidor(mat, nodo.getIzq());
 			}
 			else {
+				this.recorridosBusqueda ++;
 				return obtenerRepartidor(mat, nodo.getDer());
 			}
 		}
 	}
+	
 	public void insertarRepartidor(String mat,String nombre, NodoRepartidor nodo) {
 		NodoRepartidor nuevo = null;
 
@@ -64,4 +74,5 @@ public class ArbolRepartidor {
 				insertarRepartidor(mat,nombre, nodo.getDer());
 		}
 	}
+	
 }
