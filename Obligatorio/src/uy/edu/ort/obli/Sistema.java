@@ -82,6 +82,7 @@ public class Sistema implements ISistema {
 						repartidores.recorridosBusqueda,
 						(repartidores.obtenerRepartidor(matricula, repartidores.raiz)).getDato()
 				);
+				
 			}
 			else
 			{
@@ -95,7 +96,8 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno listarRepartidores() {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		this.repartidores.mostrarPreOrder();
+		return new Retorno(Resultado.OK);
 	}
 
 	@Override

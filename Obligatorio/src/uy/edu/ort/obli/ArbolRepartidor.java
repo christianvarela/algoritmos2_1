@@ -1,5 +1,7 @@
 package uy.edu.ort.obli;
 
+import code.Nodo;
+
 public class ArbolRepartidor {
 	protected NodoRepartidor raiz;
 	protected int recorridosBusqueda; 
@@ -75,4 +77,15 @@ public class ArbolRepartidor {
 		}
 	}
 	
+    public void mostrarPreOrder(){
+    	mostrarPreOrder(this.raiz);
+    }
+    
+    public void mostrarPreOrder(NodoRepartidor a){
+        if (a!=null){
+            System.out.print(a.getDato()+"|");
+            mostrarPreOrder(a.getIzq());
+            mostrarPreOrder(a.getDer());
+        }
+    }
 }
