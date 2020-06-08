@@ -1,7 +1,5 @@
 package uy.edu.ort.obli;
 
-import code.Nodo;
-
 public class ArbolRepartidor {
 	protected NodoRepartidor raiz;
 	protected int recorridosBusqueda; 
