@@ -1,6 +1,6 @@
 package uy.edu.ort.obli;
 
-public class GrafoCentroMedico {
+public class Grafo {
 	
 	int size;				//Tamanio actual en cantidad de nodos
 	int cantNodos;			//Maxima cantidad de nodos permitida
@@ -8,7 +8,7 @@ public class GrafoCentroMedico {
 	boolean [] nodosUsados; //Representamos los vertices (la existencia o no existencia)
 	
 	
-	public GrafoCentroMedico(int cantNodos) {
+	public Grafo(int cantNodos) {
 		this.size = 0;
 		this.cantNodos = cantNodos;
 		
@@ -67,6 +67,64 @@ public class GrafoCentroMedico {
 
 	public boolean estaVertice(int v) {
 		return this.nodosUsados[v];
+	}
+	
+	public int distanciaMasCorta(int[] costos, boolean[] visitados){
+		
+		int costoMinimo = Integer.MAX_VALUE;
+		
+		for(int i = 0; i <= visitados.length; i++) {
+			if (visitados[i] == false) {
+				if (costos[i] < costoMinimo)
+					costoMinimo = costos[i];
+			}
+		}
+		return costoMinimo;	
+	}
+	
+	public int caminoMinimo(int o, int d) {
+		
+		int[] costos = new int[this.cantNodos+1];
+		
+		for(int i=1; i<=this.cantNodos; i++){
+			if (i!=o)
+				if (sonAdyacentes(o,i))
+					costos[i] = this.matrizAdyacencia[i][o].peso;
+				else	
+					costos[i] = Integer.MAX_VALUE;
+		}
+
+		int[] camino = new int[this.cantNodos+1];
+		boolean[] visitados = new boolean[this.cantNodos+1];
+			
+		for(int i=1; i<=this.cantNodos; i++){
+			//vertice con la distancia mas corta no visitado
+			int w = distanciaMasCorta(costos, visitados);
+			visitados[w]=true;
+
+			for(int j=1; j<=this.cantNodos; j++){
+				if(this.sonAdyacentes(w, j) && !visitados[j]){
+								 							
+					if(this.matrizAdyacencia[w][j].peso+costos[w] < costos[j])
+					{			
+						costos[j] = this.matrizAdyacencia[w][j].peso + costos[w];
+						camino[j]= w;
+					}
+				}
+			}			
+		}
+		
+		imprimirCaminosAux(o, d, camino);
+		return costos[d];
+	}
+	
+	private void imprimirCaminosAux(int v, int i, int[] camino){
+			
+		if(i!=v){
+			imprimirCaminosAux(v, camino[i], camino);
+		}
+		
+		System.out.print(i +" ");
 	}
 }
 
