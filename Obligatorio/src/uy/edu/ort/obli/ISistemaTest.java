@@ -409,7 +409,7 @@ public class ISistemaTest {
 		assertEquals(Retorno.Resultado.ERROR_2, retorno.resultado);
 		
 	}
-/*
+
 	@Test
 	public void testCaminoSeguroCosto() {
 		
@@ -444,7 +444,7 @@ public class ISistemaTest {
 		assertEquals(Retorno.Resultado.OK, retorno.resultado);
 		assertEquals(17, retorno.valorEntero);
 	}
-
+/*
 	@Test
 	public void testCaminoSeguroTramos() {
 		

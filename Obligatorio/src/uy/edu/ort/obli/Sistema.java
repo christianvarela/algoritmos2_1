@@ -246,7 +246,10 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno caminoSeguro() {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		
+		GrafoSistema.prim();
+		return new Retorno(Resultado.OK);
+		
 	}
 
 	@Override

@@ -126,75 +126,66 @@ public class Grafo {
 		return costos;
 	}
 	
-	public int[] prim() {
-		
-		
-		boolean[] visitados = new boolean[this.cantNodos+1];
-		
-		int[] distanciasRelativas = new int[this.cantNodos+1];
-		
-		int[] nodosAdyacentes = new int[this.cantNodos+1];
-		
-		
-		//inicializacion
-		for (int contador = 0; contador < this.matrizAdyacencia[0].length; contador++) {
-			visitados[contador] = false;
-			nodosAdyacentes[contador] = 0;
-			distanciasRelativas[contador] = Integer.MAX_VALUE;
-		}
-		
-		distanciasRelativas[0] = 0;
-		
-		int puntoEvaluado = 0;
-		int adyacentes =0;
-		
-		for (int contadorPuntoEval = 0; contadorPuntoEval < this.matrizAdyacencia[0].length; contadorPuntoEval++) {
-			for(int contadorAdy = 0; contadorAdy < this.matrizAdyacencia[0].length; contadorAdy++) {	
-				if ((visitados[contadorAdy]) || (contadorAdy == puntoEvaluado)) {
-					continue;
-				}
-				
-				if ((this.matrizAdyacencia[puntoEvaluado][contadorAdy].peso > 0) &&
-					(this.matrizAdyacencia[puntoEvaluado][contadorAdy].peso < distanciasRelativas[contadorAdy])){
-					
-					distanciasRelativas[contadorAdy] = this.matrizAdyacencia[puntoEvaluado][contadorAdy].peso;
-					nodosAdyacentes[contadorAdy] = puntoEvaluado;
-				}
-			}
-			
-			visitados[puntoEvaluado] = true;
-			puntoEvaluado = 0;
-			int distanciaActualaComparar = Integer.MAX_VALUE;
-			
-			
-			for (int contador = 1; contador < visitados.length-1; contador++) {
-				if(visitados[contador]) {
-					continue;
-				}
-				
-				if(distanciasRelativas[contador] < distanciaActualaComparar) {
-					distanciaActualaComparar = distanciasRelativas[contador];
-					puntoEvaluado = contador; 
-				}
-			}
-		}
-		
-		/*
-		int costoMin = Integer.MAX_VALUE;
-		
-		for (int i = 1; i<= this.cantNodos; i++) {
-			for (int j = 1; j <= this.cantNodos; j++) {
-				if (this.matrizAdyacencia[i][j].peso < costoMin) {
-					
-					costoMin = this.matrizAdyacencia[i][j].peso;
-				}
-			}
-		}
-		*/
-		
-		
-		
-		return resultado;
+	public void prim() {
+	    int visited[] = new int [this.cantNodos+1];
+	    int d[] = new int[this.cantNodos+1];
+	    int p[] = new int[this.cantNodos+1];
+	    
+	    int verticeCount;
+	    int current;
+	    int total;
+	    int mincost;
+
+        verticeCount = this.cantNodos+1;
+   
+       for (int i = 1; i < verticeCount; i++) {
+           p[i] = 0; 
+           visited[i] = 0;
+           d[i] = Integer.MAX_VALUE;
+        }
+      
+        Arco weightArray[][] = this.matrizAdyacencia; 
+        
+        current = 1;
+        d[current] = 0;
+        total = 1;
+        visited[current] = 1;
+        while( total != verticeCount) {
+            for (int i = 1; i < verticeCount; i++) {
+                if ( weightArray[current][i].peso != 0) {
+                    if( visited[i] == 0) { 
+                        if (d[i] > weightArray[current][i].peso) {
+                            d[i] = weightArray[current][i].peso;
+                            p[i] = current;
+                        }
+                    }
+                }
+            }
+            mincost = Integer.MAX_VALUE;;
+            for (int i = 1 ; i < verticeCount; i++) {
+                if (visited[i] == 0) {
+                    if (d[i] < mincost) {
+                        mincost = d[i];
+                        current = i;
+                    }
+                }
+            }
+            visited[current]=1;
+            total++;
+        }
+
+        mincost=0;
+        for(int i=1; i<verticeCount ;i++) {
+        	mincost=mincost+d[i];
+        }
+
+        System.out.print("\n Minimum cost="+mincost);
+        System.out.print("\n Minimum Spanning tree is");
+
+        for(int i=1;i<verticeCount;i++) {
+        	System.out.print("\n vertex" +i+"is connected to"+p[i]);
+        }
+	    
 	}
 	
 	private void imprimirCaminosAux(int v, int i, int[] camino){
