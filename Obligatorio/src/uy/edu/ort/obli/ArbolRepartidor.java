@@ -2,7 +2,7 @@ package uy.edu.ort.obli;
 
 public class ArbolRepartidor {
 	protected NodoRepartidor raiz;
-	protected int recorridosBusqueda; 
+	//protected int recorridosBusqueda; 
 	
 	public ArbolRepartidor() {
 		this.raiz = null;
@@ -28,23 +28,44 @@ public class ArbolRepartidor {
 	}
 	
 	public NodoRepartidor obtenerRepartidor(String mat, NodoRepartidor nodo) {
-		this.recorridosBusqueda = 0;
+
 		if (nodo == null) {
+			//this.recorridosBusqueda = recorridos;
 			return nodo;
 		}
-		else{
-			if ( mat == nodo.getMatricula()) {
-				return nodo;
-			}
-			else if ( Integer.parseInt(mat) < Integer.parseInt(nodo.getMatricula())) {
-				this.recorridosBusqueda ++;
+		else
+		{	
+			if ( mat.compareTo(nodo.getMatricula()) < 0 ) {
+				//recorridos++;
 				return obtenerRepartidor(mat, nodo.getIzq());
 			}
-			else {
-				this.recorridosBusqueda ++;
+			else if ( mat.compareTo(nodo.getMatricula()) > 0 ){
+				//recorridos++;
 				return obtenerRepartidor(mat, nodo.getDer());
 			}
+			//recorridos++;
+			//this.recorridosBusqueda = recorridos;
+			return nodo;
 		}
+	}
+	
+    public int cantBusquedas(String matricula,NodoRepartidor nodo) {
+    	int cont = 0;	
+		if(nodo != null)
+        {
+			if (nodo.getMatricula() == matricula) {
+				cont++;
+				return cont;
+			}
+			cont += cantBusquedas(matricula,nodo.getIzq());
+			cont++;
+			if (nodo.getMatricula() == matricula) {
+				cont++;
+				return cont;
+			}
+			cont += cantBusquedas(matricula,nodo.getDer());
+        }
+		return cont;
 	}
 	
 	public void insertarRepartidor(String mat,String nombre, NodoRepartidor nodo) {
@@ -53,8 +74,8 @@ public class ArbolRepartidor {
         if (this.esArbolRepartidorVacio())
             this.raiz = new NodoRepartidor(mat, nombre);
 
-        else if( Integer.parseInt(mat) < Integer.parseInt(nodo.getMatricula()))
-        {   // n < dato => insertaré en subárbol izq.
+        else if( mat.compareTo(nodo.getMatricula()) < 0)
+        {   // n < dato => insertaré en subarbol izq.
             if(nodo.getIzq() == null)
             {
                 nuevo = new NodoRepartidor(mat, nombre);
@@ -63,8 +84,8 @@ public class ArbolRepartidor {
              else
                  insertarRepartidor(mat,nombre, nodo.getIzq());
         }
-        else if( Integer.parseInt(mat) < Integer.parseInt(nodo.getMatricula()))
-        {   // n > dato => insertaré en subárbol derecho
+        else if( mat.compareTo(nodo.getMatricula()) > 0)
+        {   // n > dato => insertaré en subarbol derecho
 			if(nodo.getDer() == null)
             {
 				nuevo = new NodoRepartidor(mat, nombre);
@@ -75,15 +96,17 @@ public class ArbolRepartidor {
 		}
 	}
 	
-    public void mostrarPreOrder(){
-    	mostrarPreOrder(this.raiz);
+    public String mostrarInOrder(){
+    	return mostrarInOrder(this.raiz);
     }
     
-    public void mostrarPreOrder(NodoRepartidor a){
-        if (a!=null){
-            System.out.print(a.getDato()+"|");
-            mostrarPreOrder(a.getIzq());
-            mostrarPreOrder(a.getDer());
+    public String mostrarInOrder(NodoRepartidor a){
+    	String resultado = "";	
+    	if (a!=null){
+        	resultado += mostrarInOrder(a.getDer());
+        	resultado += a.getDato()+"|";
+            resultado += mostrarInOrder(a.getIzq());
         }
+    	return resultado;
     }
 }
